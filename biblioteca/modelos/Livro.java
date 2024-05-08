@@ -16,9 +16,6 @@ public class Livro {
         this.editora = editora;
     }
 
-    public Livro(String line) {
-    }
-
     public String getTitulo() {
         return titulo;
     }
@@ -33,6 +30,6 @@ public class Livro {
     
     @Override
     public String toString() {
-        return  titulo + autor.getNome() + genero.getNome() + editora.getNome();
+        return "Livro: " + titulo + ", Autor: " + autor.getNome() + ", Gênero: " + genero.getNome() + ", Editora: " + editora.getNome();
     }
 }
