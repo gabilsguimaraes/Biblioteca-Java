@@ -1,5 +1,8 @@
 package biblioteca;
+
+import java.util.List;
 import java.util.Scanner;
+
 import biblioteca.modelos.Autor;
 import biblioteca.modelos.Editora;
 import biblioteca.modelos.Genero;
@@ -8,10 +11,9 @@ import biblioteca.modelos.Livro;
 public class Main {
     public static void main(String[] args) {
         Biblioteca biblioteca = new Biblioteca();
+        List<Livro> livrosLidos = FileManager.lerLivros();
+        biblioteca.getLivros().addAll(livrosLidos);
         Scanner scanner = new Scanner(System.in);
-
-        // Load data from file
-        FileManager.carregarLivros(biblioteca, "/home/alex/Downloads/biblioteca/livros.txt");
 
         boolean continuar = true;
         while (continuar) {
@@ -33,7 +35,7 @@ public class Main {
                     String titulo = scanner.nextLine();
 
                     System.out.println("Digite o nome do autor:");
-                    String nomeAutor = scanner.nextLine();
+                    String nomeAutor = scanner.nextLine(); 
                     Autor autor = new Autor(nomeAutor);
 
                     System.out.println("Digite o nome do gênero:");
@@ -44,28 +46,23 @@ public class Main {
                     String nomeEditora = scanner.nextLine();
                     Editora editora = new Editora(nomeEditora);
                     Livro novoLivro = new Livro(titulo, autor, genero, editora);
+                    
                     biblioteca.adicionarLivro(novoLivro);
-
-                    FileManager.salvarLivros(biblioteca.getLivros(), "/home/alex/Downloads/biblioteca/livros.txt");
+                    FileManager.salvarLivros(biblioteca.getLivros());
                     break;
+
                 case 2:
-                    //remover um livro
-                    System.out.println("Digite o título do livro a ser removido:");
+                    // remove livro
+                    System.out.println("Digite o título do livro que deseja remover:");
                     String tituloRemover = scanner.nextLine();
-                    Livro livroRemover = biblioteca.pesquisarLivro(tituloRemover);
-                    if (livroRemover != null) {
-                        biblioteca.removerLivro(livroRemover);
-                    } else {
-                        System.out.println("Livro não encontrado.");
-                    }
-
-                    FileManager.salvarLivros(biblioteca.getLivros(), "/home/alex/Downloads/biblioteca/livros.txt");
+                    FileManager.removerLivro(tituloRemover);
                     break;
+
                 case 3:
-                    //pesquisar um livro
-                    System.out.println("Digite o título do livro a ser pesquisado:");
-                    String tituloPesquisar = scanner.nextLine();
-                    Livro livroPesquisado = biblioteca.pesquisarLivro(tituloPesquisar);
+                    // pesquisa livro
+                    System.out.println("Digite o título do livro que deseja pesquisar:");
+                    String tituloPesquisa = scanner.nextLine();
+                    Livro livroPesquisado = FileManager.encontrarLivroPorTitulo(tituloPesquisa);
                     if (livroPesquisado != null) {
                         System.out.println("Livro encontrado:");
                         System.out.println(livroPesquisado);
@@ -73,33 +70,38 @@ public class Main {
                         System.out.println("Livro não encontrado.");
                     }
                     break;
+                    
                 case 4:
-                    //listar todos os livros
-                    biblioteca.listarLivros();
+                    // lista
+                    List<Livro> livros = FileManager.lerLivros(); 
+                    for (Livro livro : livros) {
+                        System.out.println(livro);
+                    }
                     break;
+                    
                 case 5:
-                    // Lógica para listar todos os livros ordenados
+                    // lista por ordem
                     System.out.println("Escolha o critério de ordenação:");
                     System.out.println("1. Título do livro");
                     System.out.println("2. Nome do autor");
                     System.out.println("3. Nome da editora");
                     int criterioOrdenacao = scanner.nextInt();
-                    biblioteca.listarLivrosOrdenados(criterioOrdenacao);
+                    List<Livro> livrosOrdenados = biblioteca.listarLivrosOrdenados(criterioOrdenacao);
+                    for (Livro livro : livrosOrdenados) {
+                        System.out.println(livro);
+                    }
+                    FileManager.lerLivros();
                     break;
+
                 case 6:
-                    // Sair do programa
+                    // sai
                     continuar = false;
                     break;
                 default:
                     System.out.println("Opção inválida.");
             }
         }
-
-        // Salvar os dados da biblioteca em arquivos.txt
-        FileManager.salvarLivros(biblioteca.getLivros(), "/home/alex/Downloads/biblioteca/livros.txt");
-
-        // Fechar o scanner
+        
         scanner.close();
     }
-}
 }
