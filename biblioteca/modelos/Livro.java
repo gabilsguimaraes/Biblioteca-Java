@@ -9,11 +9,14 @@ public class Livro {
     private Editora editora;
 
     //construtor
-    public Livro(String titulo,Autor autor, Genero genero, Editora editora) {
+    public Livro(String titulo, Autor autor, Genero genero, Editora editora) {
         this.titulo = titulo;
         this.autor = autor;
         this.genero = genero;
         this.editora = editora;
+    }
+
+    public Livro(String line) {
     }
 
     public String getTitulo() {
@@ -27,9 +30,10 @@ public class Livro {
     public Editora getEditora() {
         return editora;
     }
-    
+
     @Override
     public String toString() {
-        return "Livro: " + titulo + ", Autor: " + autor.getNome() + ", Gênero: " + genero.getNome() + ", Editora: " + editora.getNome();
+        return "Livro: " + titulo + ", Autor: " + autor + ", Gênero: " + genero + ", Editora: " + editora;
     }
+
 }
