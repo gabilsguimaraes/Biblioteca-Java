@@ -23,28 +23,32 @@ public class Main {
             System.out.println("6. Sair");
 
             int opcao = scanner.nextInt();
-            scanner.nextLine(); // Limpar o buffer
+            scanner.nextLine();
 
             switch (opcao) {
                 case 1:
-                    // Lógica para adicionar um livro
+                    //adicionar um livro
                     System.out.println("Digite o título do livro:");
                     String titulo = scanner.nextLine();
+
                     System.out.println("Digite o nome do autor:");
                     String nomeAutor = scanner.nextLine(); 
                     Autor autor = new Autor(nomeAutor);
+
                     System.out.println("Digite o nome do gênero:");
                     String nomeGenero = scanner.nextLine();
                     Genero genero = new Genero(nomeGenero);
+
                     System.out.println("Digite o nome da editora:");
                     String nomeEditora = scanner.nextLine();
                     Editora editora = new Editora(nomeEditora);
-                    Livro novoLivro = new Livro(titulo, genero, editora);
-                    novoLivro.adicionarAutor(autor);
+                    Livro novoLivro = new Livro(titulo, autor, genero, editora);
                     biblioteca.adicionarLivro(novoLivro);
+
+                    FileManager.salvarLivros(biblioteca.getLivros(), "C:/Users/Gabi/Documents/UP/3 periodo/JAVA/biblioteca/livros.txt");
                     break;
                 case 2:
-                    // Lógica para remover um livro
+                    //remover um livro
                     System.out.println("Digite o título do livro a ser removido:");
                     String tituloRemover = scanner.nextLine();
                     Livro livroRemover = biblioteca.pesquisarLivro(tituloRemover);
@@ -53,9 +57,11 @@ public class Main {
                     } else {
                         System.out.println("Livro não encontrado.");
                     }
+
+                    FileManager.salvarLivros(biblioteca.getLivros(), "C:/Users/Gabi/Documents/UP/3 periodo/JAVA/biblioteca/livros.txt");
                     break;
                 case 3:
-                    // Lógica para pesquisar um livro
+                    //pesquisar um livro
                     System.out.println("Digite o título do livro a ser pesquisado:");
                     String tituloPesquisar = scanner.nextLine();
                     Livro livroPesquisado = biblioteca.pesquisarLivro(tituloPesquisar);
@@ -67,7 +73,7 @@ public class Main {
                     }
                     break;
                 case 4:
-                    // Lógica para listar todos os livros
+                    //listar todos os livros
                     biblioteca.listarLivros();
                     break;
                 case 5:
@@ -89,7 +95,7 @@ public class Main {
         }
 
         // Salvar os dados da biblioteca em arquivos.txt
-        FileManager.salvarLivros(biblioteca.getLivros(), "livros.txt");
+        FileManager.salvarLivros(biblioteca.getLivros(), "C:/Users/Gabi/Documents/UP/3 periodo/JAVA/biblioteca/livros.txt");
 
         // Fechar o scanner
         scanner.close();
