@@ -15,66 +15,32 @@ public class Biblioteca {
 
     public void adicionarLivro(Livro livro) {
         livros.add(livro);
-        System.out.println("Livro adicionado com sucesso!");
-    }
-
-    public void removerLivro(Livro livro) {
-        if (livros.contains(livro)) {
-            livros.remove(livro);
-            System.out.println("Livro removido com sucesso!");
-        } else {
-            System.out.println("Livro não encontrado na biblioteca.");
-        }
-    }
-
-    public Livro pesquisarLivro(String titulo) {
-        for (Livro livro : livros) {
-            if (livro.getTitulo().equals(titulo)) {
-                return livro;
-            }
-        }
-        System.out.println("Livro não encontrado na biblioteca.");
-        return null;
-    }
-
-    public void listarLivros() {
-        if (livros.isEmpty()) {
-            System.out.println("A biblioteca está vazia.");
-        } else {
-            System.out.println("Livros na biblioteca:");
-            for (Livro livro : livros) {
-                System.out.println(livro);
-            }
-        }
     }
 
     public List<Livro> getLivros() {
         return livros;
     }
 
-
-    public void listarLivrosOrdenados(int criterio) {
+    public List<Livro> listarLivrosOrdenados(int criterio) {
+        List<Livro> livros = FileManager.lerLivros(); // pega os livros do arquivo de texto
         List<Livro> livrosOrdenados = new ArrayList<>(livros);
         switch (criterio) {
             case 1:
-                // Ordenar por título do livro
+                // ordena por título do livro
                 livrosOrdenados.sort(Comparator.comparing(Livro::getTitulo));
                 break;
             case 2:
-                // Ordenar por nome do autor
+                // ordena por nome do autor
                 livrosOrdenados.sort(Comparator.comparing(livro -> livro.getAutor().getNome()));
                 break;
             case 3:
-                // Ordenar por nome da editora
+                // ordena por nome da editora
                 livrosOrdenados.sort(Comparator.comparing(livro -> livro.getEditora().getNome()));
                 break;
             default:
                 System.out.println("Critério de ordenação inválido.");
-                return;
+                return null;
         }
-        for (Livro livro : livrosOrdenados) {
-            System.out.println(livro);
-        }
+        return livrosOrdenados;
     }
-    
 }
