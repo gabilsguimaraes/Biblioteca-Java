@@ -1,0 +1,5 @@
+Livro: Jogos Vorazes, Autor: Suzanne Collins, Gênero: Ficcao Cientifica, Editora: Rocco
+Livro: O Ladrao de Raios, Autor: Rick Riordan, Gênero: Fantasia, Editora: Intrinseca
+Livro: Orgulho e Preconceito, Autor: Jane Austen, Gênero: Romance, Editora: Camelot
+Livro: a, Autor: a, Gênero: a, Editora: a
+Livro: Jogos Vorazes, Autor: Suzanne Collins, Gênero: Ficcao Cientifica, Editora: Rocco
