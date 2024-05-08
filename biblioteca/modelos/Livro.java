@@ -1,36 +1,19 @@
 package biblioteca.modelos;
 
-import java.util.ArrayList;
-import java.util.List;
-
 //criação da classe
 public class Livro {
     //declaração das variáveis
     private String titulo;
-    private ArrayList<Autor> autores;
+    private Autor autor;
     private Genero genero;
     private Editora editora;
 
     //construtor
-    public Livro(String titulo, Genero genero, Editora editora) {
+    public Livro(String titulo,Autor autor, Genero genero, Editora editora) {
         this.titulo = titulo;
-        this.autores = new ArrayList<>();
+        this.autor = autor;
         this.genero = genero;
         this.editora = editora;
-    }
-
-    public void adicionarAutor(Autor autor) {
-        autores.add(autor);
-    }
-
-    public void removerAutor(Autor autor) {
-        autores.remove(autor);
-    }
-
-    public void listarAutores() {
-        for (Autor autor : autores) {
-            System.out.println(autor.getNome());
-        }
     }
 
     public String getTitulo() {
@@ -38,14 +21,7 @@ public class Livro {
     }
 
     public Autor getAutor() {
-        if (!autores.isEmpty()) {
-            return autores.get(0);
-        } else {
-            return null;
-        }
-    }
-    public List<Autor> getAutores() {
-        return autores;
+        return autor;
     }
 
     public Editora getEditora() {
@@ -54,6 +30,6 @@ public class Livro {
     
     @Override
     public String toString() {
-        return "Livro: " + titulo + ", Gênero: " + genero.getNome() + ", Editora: " + editora.getNome();
+        return "Livro: " + titulo + ", Autor: " + autor.getNome() + ", Gênero: " + genero.getNome() + ", Editora: " + editora.getNome();
     }
 }
