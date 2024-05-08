@@ -1,7 +1,5 @@
 package biblioteca;
-
 import java.util.Scanner;
-
 import biblioteca.modelos.Autor;
 import biblioteca.modelos.Editora;
 import biblioteca.modelos.Genero;
@@ -11,6 +9,9 @@ public class Main {
     public static void main(String[] args) {
         Biblioteca biblioteca = new Biblioteca();
         Scanner scanner = new Scanner(System.in);
+
+        // Load data from file
+        FileManager.carregarLivros(biblioteca, "/home/alex/Downloads/biblioteca/livros.txt");
 
         boolean continuar = true;
         while (continuar) {
@@ -32,7 +33,7 @@ public class Main {
                     String titulo = scanner.nextLine();
 
                     System.out.println("Digite o nome do autor:");
-                    String nomeAutor = scanner.nextLine(); 
+                    String nomeAutor = scanner.nextLine();
                     Autor autor = new Autor(nomeAutor);
 
                     System.out.println("Digite o nome do gênero:");
@@ -45,7 +46,7 @@ public class Main {
                     Livro novoLivro = new Livro(titulo, autor, genero, editora);
                     biblioteca.adicionarLivro(novoLivro);
 
-                    FileManager.salvarLivros(biblioteca.getLivros(), "C:/Users/Gabi/Documents/UP/3 periodo/JAVA/biblioteca/livros.txt");
+                    FileManager.salvarLivros(biblioteca.getLivros(), "/home/alex/Downloads/biblioteca/livros.txt");
                     break;
                 case 2:
                     //remover um livro
@@ -58,7 +59,7 @@ public class Main {
                         System.out.println("Livro não encontrado.");
                     }
 
-                    FileManager.salvarLivros(biblioteca.getLivros(), "C:/Users/Gabi/Documents/UP/3 periodo/JAVA/biblioteca/livros.txt");
+                    FileManager.salvarLivros(biblioteca.getLivros(), "/home/alex/Downloads/biblioteca/livros.txt");
                     break;
                 case 3:
                     //pesquisar um livro
@@ -95,9 +96,10 @@ public class Main {
         }
 
         // Salvar os dados da biblioteca em arquivos.txt
-        FileManager.salvarLivros(biblioteca.getLivros(), "C:/Users/Gabi/Documents/UP/3 periodo/JAVA/biblioteca/livros.txt");
+        FileManager.salvarLivros(biblioteca.getLivros(), "/home/alex/Downloads/biblioteca/livros.txt");
 
         // Fechar o scanner
         scanner.close();
     }
+}
 }
