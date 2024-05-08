@@ -24,8 +24,7 @@ public class FileManager {
             }
             System.out.println("Livros salvos com sucesso!");
         } catch (IOException e) {
-            System.out.println("Erro ao salvar livros.");
-            e.printStackTrace();
+            handleIOException("Erro ao salvar livros.", e);
         }
     }
 
@@ -34,41 +33,31 @@ public class FileManager {
         try (BufferedReader reader = new BufferedReader(new FileReader(CAMINHO_ARQUIVO))) {
             String linha;
             while ((linha = reader.readLine()) != null) {
-                String[] partes = linha.split(",");
-                String tituloLivro = partes[0].substring(partes[0].indexOf(":") + 2).trim();
-                Autor autor = new Autor(partes[1].substring(partes[1].indexOf(":") + 2).trim());
-                Genero genero = new Genero(partes[2].substring(partes[2].indexOf(":") + 2).trim());
-                Editora editora = new Editora(partes[3].substring(partes[3].indexOf(":") + 2).trim());
-                livros.add(new Livro(tituloLivro, autor, genero, editora));
+                Livro livro = extrairLivro(linha);
+                if (livro != null) {
+                    livros.add(livro);
+                }
             }
         } catch (IOException e) {
-            System.out.println("Erro ao ler os livros do arquivo.");
-            e.printStackTrace();
+            handleIOException("Erro ao ler os livros do arquivo.", e);
         }
         return livros;
     }
 
     public static Livro encontrarLivroPorTitulo(String titulo) {
-        Livro livroEncontrado = null;
+        //testar enquanto houver uma linha
         try (BufferedReader reader = new BufferedReader(new FileReader(CAMINHO_ARQUIVO))) {
             String linha;
             while ((linha = reader.readLine()) != null) {
-                String[] partes = linha.split(","); 
-                String tituloLivro = partes[0].substring(partes[0].indexOf(":") + 2);
-                if (tituloLivro.equalsIgnoreCase(titulo)) {
-
-                    Autor autor = new Autor(partes[1].substring(partes[1].indexOf(":") + 2).trim());
-                    Genero genero = new Genero(partes[2].substring(partes[2].indexOf(":") + 2).trim());
-                    Editora editora = new Editora(partes[3].substring(partes[3].indexOf(":") + 2).trim());
-                    livroEncontrado = new Livro(tituloLivro, autor, genero, editora);
-                    break;
+                Livro livro = extrairLivro(linha);
+                if (livro != null && livro.getTitulo().equalsIgnoreCase(titulo)) {
+                    return livro;
                 }
             }
         } catch (IOException e) {
-            System.out.println("Erro ao encontrar o livro por título.");
-            e.printStackTrace();
+            handleIOException("Erro ao encontrar o livro.", e);
         }
-        return livroEncontrado;
+        return null;
     }
 
     public static void removerLivro(String tituloRemover) {
@@ -76,17 +65,15 @@ public class FileManager {
         try (BufferedReader reader = new BufferedReader(new FileReader(CAMINHO_ARQUIVO))) {
             String linha;
             while ((linha = reader.readLine()) != null) {
-                String[] partes = linha.split(",");
-                String tituloLivro = partes[0].substring(partes[0].indexOf(":") + 2).trim();
-                if (!tituloLivro.equalsIgnoreCase(tituloRemover)) {
+                Livro livro = extrairLivro(linha);
+                if (livro != null && !livro.getTitulo().equalsIgnoreCase(tituloRemover)) {
                     linhas.add(linha);
                 }
             }
         } catch (IOException e) {
-            System.out.println("Erro ao encontrar o livro por título.");
-            e.printStackTrace();
+            handleIOException("Erro ao encontrar o livro.", e);
         }
-    
+
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(CAMINHO_ARQUIVO))) {
             for (String linha : linhas) {
                 writer.write(linha);
@@ -94,8 +81,25 @@ public class FileManager {
             }
             System.out.println("Livro removido com sucesso.");
         } catch (IOException e) {
-            System.out.println("Erro ao escrever no arquivo.");
-            e.printStackTrace();
+            handleIOException("Erro ao escrever no arquivo.", e);
         }
+    }
+
+    private static Livro extrairLivro(String linha) {
+        //separa o livro em 4 partes: titulo, autor, genero e editora, ao invés de salvar tudo em 1 string
+        String[] partes = linha.split(",");
+        if (partes.length >= 4) {
+            String titulo = partes[0].substring(partes[0].indexOf(":") + 2).trim();
+            Autor autor = new Autor(partes[1].substring(partes[1].indexOf(":") + 2).trim());
+            Genero genero = new Genero(partes[2].substring(partes[2].indexOf(":") + 2).trim());
+            Editora editora = new Editora(partes[3].substring(partes[3].indexOf(":") + 2).trim());
+            return new Livro(titulo, autor, genero, editora);
+        }
+        return null;
+    }
+
+    private static void handleIOException(String message, IOException e) {
+        System.out.println(message);
+        e.printStackTrace();
     }
 }
