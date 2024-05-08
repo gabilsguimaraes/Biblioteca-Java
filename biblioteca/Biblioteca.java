@@ -4,25 +4,17 @@ import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 
-import biblioteca.modelos.Autor;
 import biblioteca.modelos.Livro;
 
 public class Biblioteca {
     private List<Livro> livros;
-    private List<Autor> autores;
-
 
     public Biblioteca() {
         this.livros = new ArrayList<>();
-        this.autores = new ArrayList<>();
     }
 
     public void adicionarLivro(Livro livro) {
         livros.add(livro);
-        Autor autorLivro = livro.getAutor();
-        if (autorLivro != null && !autores.contains(autorLivro)) {
-            autores.add(autorLivro);
-        }
         System.out.println("Livro adicionado com sucesso!");
     }
 
@@ -60,10 +52,6 @@ public class Biblioteca {
         return livros;
     }
 
-    public List<Autor> getAutores() {
-        return autores;
-    }
-
 
     public void listarLivrosOrdenados(int criterio) {
         List<Livro> livrosOrdenados = new ArrayList<>(livros);
@@ -74,7 +62,7 @@ public class Biblioteca {
                 break;
             case 2:
                 // Ordenar por nome do autor
-                livrosOrdenados.sort(Comparator.comparing(livro -> livro.getAutores().get(0).getNome()));
+                livrosOrdenados.sort(Comparator.comparing(livro -> livro.getAutor().getNome()));
                 break;
             case 3:
                 // Ordenar por nome da editora
